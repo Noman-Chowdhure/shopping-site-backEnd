@@ -38,12 +38,21 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+    const database = client.db("productDB");
+    const products = database.collection("product");
+
+    // const doc = {
+    //   title: "Record of a Shriveled Datum",
+    //   content: "No bytes, no problem. Just insert a document, in MongoDB",
+    // }
+
 
     app.post("/man/product", async (req, res) => {
       const fucking = req.body;
       console.log("port is hitiing", fucking);
-      objec.push(fucking);
-      res.send(objec);
+      const result = await products.insertOne(fucking);
+      res.send(result)
+
     });
 
     // Send a ping to confirm a successful connection
@@ -53,7 +62,7 @@ async function run() {
     );
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
