@@ -7,7 +7,7 @@ const man = require("./man.json");
 
 const app = express();
 
-const objec = [];
+
 const port = 3000;
 
 app.use(cors());
@@ -38,14 +38,14 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    const database = client.db("productDB");
-    const products = database.collection("product");
+    const products = client.db("productDB").collection("product");
 
-    // const doc = {
-    //   title: "Record of a Shriveled Datum",
-    //   content: "No bytes, no problem. Just insert a document, in MongoDB",
-    // }
 
+    app.get("/product",async(req,res) =>{
+      const cousor = products.find();
+      const results = await cousor.toArray();
+      res.send(results);
+    })
 
     app.post("/man/product", async (req, res) => {
       const fucking = req.body;
